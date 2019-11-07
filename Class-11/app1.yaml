@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-deployment
+  labels:
+    app: webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserver
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+      - name: webserver
+        image: master01:4443/webserver:v1
+        resources:
+          requests:
+            memory: "50Gi"
+          limits:
+            memory: "100Gi"
+        env:
+          name: MESSAGE
+          value: "Hello from CIS280"
+        command: ["/bin/"]
+        args: ["$(MESSAGE)"]
+      imagePullSecrets:
+      - name: registry-secret
